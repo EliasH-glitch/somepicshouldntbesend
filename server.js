@@ -1,22 +1,24 @@
 const express = require('express');
-const nodemailer = require('nodemailer');
+const cors = require('cors');
+const nodemailer = require('nodemailer'); // <-- Fixed: Added nodemailer import
 const app = express();
 
 // Middleware to parse JSON bodies
+app.use(cors());
 app.use(express.json());
 
 // Configure your SMTP transporter
 const transporter = nodemailer.createTransport({
-    host: 'smtp.seznam.com', // login credentials ha
+    host: 'smtp.seznam.com',
     port: 587, 
-    secure: false, // true for 465, false for other ports
+    secure: false, 
     auth: {
-        user: 'randommail74@seznam.cz', // its used only for this so dont bother
+        user: 'randommail74@seznam.cz', 
         pass: 'R@nd0mm@1l.74.'
     }
 });
 
-// Endpoint that receives the device profile from frontend JS
+// Single, clean endpoint that receives the device profile and sends an email
 app.post('/api/send-device-info', async (req, res) => {
     const deviceData = req.body;
 
@@ -38,6 +40,8 @@ app.post('/api/send-device-info', async (req, res) => {
     }
 });
 
-app.listen(3000, () => {
-    console.log('Backend server running on port 3000');
+// Use Render's assigned port dynamically
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

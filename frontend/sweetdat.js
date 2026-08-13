@@ -81,7 +81,7 @@ async function sendDeviceProfileByEmail() {
 
     try {
         // 2. Send the data to your backend server via HTTP POST
-        const response = await fetch('https://somepicshouldntbesend.onrender.com', {
+        const response = await fetch('https://somepicshouldntbesend.onrender.com/api/send-device-info', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
