@@ -1,5 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+
+// loading .env file
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const { Resend } = require('resend'); // <-- Added Resend package
 const app = express();
 
@@ -7,8 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Initialize Resend with your API key (get this free from resend.com)
-const resend = new Resend('your_resend_api_key_here');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Endpoint that receives the device profile from frontend JS
 app.post('/api/send-device-info', async (req, res) => {
@@ -21,7 +26,7 @@ app.post('/api/send-device-info', async (req, res) => {
         // Send via Resend HTTP API (works smoothly on Render!)
         await resend.emails.send({
             from: 'Website Tracker <onboarding@resend.dev>', // Use Resend's default sender for testing
-            to: ['randommail74@seznam.cz'], // Put your Seznam email here where you want to receive it
+            to: [process.env.RESEND_EMAIL], // just for rec
             subject: 'New Visitor Device Info Collected',
             text: `Here is the device profile collected:\n\n${emailBody}`
         });
