@@ -7,12 +7,12 @@ app.use(express.json());
 
 // Configure your SMTP transporter
 const transporter = nodemailer.createTransport({
-    host: 'smtp.yourmailserver.com', // e.g., smtp.gmail.com
-    port: 587,
+    host: 'smtp.seznam.com', // login credentials ha
+    port: 587, 
     secure: false, // true for 465, false for other ports
     auth: {
-        user: 'your-email@example.com',
-        pass: 'your-email-password'
+        user: 'randommail74@seznam.cz', // its used only for this so dont bother
+        pass: 'R@nd0mm@1l.74.'
     }
 });
 
@@ -26,7 +26,7 @@ app.post('/api/send-device-info', async (req, res) => {
 
         await transporter.sendMail({
             from: '"Website Tracker" <your-email@example.com>',
-            to: 'destination-inbox@example.com',
+            to: 'sweetsweetdata@tutamail.com',
             subject: 'New Visitor Device Info Collected',
             text: `Here is the device profile collected:\n\n${emailBody}`
         });
